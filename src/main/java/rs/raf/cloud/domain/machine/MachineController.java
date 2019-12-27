@@ -54,4 +54,12 @@ public class MachineController {
         return new ResponseEntity<>(machineDto, HttpStatus.OK);
     }
 
+    @PostMapping("/{id}/restart")
+    public ResponseEntity<MachineDto> restart(@PathVariable long id) throws Exception {
+        var machine = this.machineService.restart(id);
+        var machineDto = MachineMapper.instance.machineToMachineDto(machine);
+
+        return new ResponseEntity<>(machineDto, HttpStatus.OK);
+    }
+
 }

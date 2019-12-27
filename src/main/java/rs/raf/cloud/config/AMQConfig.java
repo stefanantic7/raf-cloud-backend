@@ -18,4 +18,8 @@ public class AMQConfig {
         return new Queue("stopMachineQueue", false);
     }
 
+    @Bean
+    public Queue restartMachineQueue() {
+        return new Queue("restartMachineQueue", false);
+    }
 }

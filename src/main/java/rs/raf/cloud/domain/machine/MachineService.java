@@ -86,4 +86,24 @@ public class MachineService {
 
         return machine;
     }
+
+    @Transactional(isolation= Isolation.SERIALIZABLE)
+    public Machine restart(long id) throws Exception {
+        Optional<Machine> optionalMachine = this.machineRepository.findById(id);
+        if (optionalMachine.isEmpty()) {
+            throw new Exception("Machine not found");
+        }
+
+        Machine machine = optionalMachine.get();
+        if (machine.getStatus() != MachineStatusEnum.RUNNING) {
+            throw new Exception("Machine is not run");
+        }
+
+        machine.setStatus(MachineStatusEnum.RESTARTING);
+        machineRepository.save(machine);
+
+        rabbitTemplate.convertAndSend("restartMachineQueue", machine);
+
+        return machine;
+    }
 }
