@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import rs.raf.cloud.CloudApplication;
 import rs.raf.cloud.domain.machine.actions.StartMachine;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -23,15 +24,17 @@ public class MachineService {
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
-    public List<Machine> search() {
-        return this.machineRepository.findAllByActiveIsTrue();
+    public List<Machine> search(MachineSearchQuery machineSearchQuery) {
+        return this.machineRepository.searchMachines(machineSearchQuery);
     }
 
-    public Machine createMachine() {
+    public Machine createMachine(MachineCreateQuery machineCreateQuery) {
         Machine machine = new Machine();
+        machine.setName(machineCreateQuery.getName());
         machine.setActive(true);
         machine.setStatus(MachineStatusEnum.STOPPED);
         machine.setUid(UUID.randomUUID().toString());
+        machine.setCreatedAt(new Timestamp(System.currentTimeMillis()));
 
         return this.machineRepository.save(machine);
     }

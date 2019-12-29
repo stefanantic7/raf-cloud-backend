@@ -9,6 +9,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface MachineRepository extends JpaRepository<Machine, Long> {
+public interface MachineRepository extends JpaRepository<Machine, Long>, CustomMachineRepository {
     List<Machine> findAllByActiveIsTrue();
 }

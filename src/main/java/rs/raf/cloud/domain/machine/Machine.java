@@ -1,7 +1,10 @@
 package rs.raf.cloud.domain.machine;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 @Entity
 public class Machine implements Serializable {
@@ -9,6 +12,9 @@ public class Machine implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "name", nullable = false)
+    private String name;
 
     @Column(name = "uid", nullable = false, unique = true)
     private String uid;
@@ -20,12 +26,23 @@ public class Machine implements Serializable {
     @Column(name = "active", nullable = false)
     private boolean active;
 
+    @Column(name = "createdAt", nullable = true)
+    private Timestamp createdAt;
+
     public long getId() {
         return id;
     }
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUid() {
@@ -50,5 +67,13 @@ public class Machine implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 }
