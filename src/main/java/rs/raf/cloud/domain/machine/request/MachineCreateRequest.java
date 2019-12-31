@@ -1,8 +1,8 @@
-package rs.raf.cloud.domain.machine;
+package rs.raf.cloud.domain.machine.request;
 
 import javax.validation.constraints.NotBlank;
 
-public class MachineCreateQuery {
+public class MachineCreateRequest {
 
     @NotBlank(message = "Name is mandatory")
     private String name;

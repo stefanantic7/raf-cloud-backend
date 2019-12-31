@@ -1,4 +1,6 @@
-package rs.raf.cloud.domain.machine;
+package rs.raf.cloud.domain.machine.dto;
+
+import rs.raf.cloud.domain.machine.enums.MachineStatusEnum;
 
 import java.sql.Timestamp;
 

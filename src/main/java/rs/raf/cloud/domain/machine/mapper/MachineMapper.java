@@ -1,7 +1,9 @@
-package rs.raf.cloud.domain.machine;
+package rs.raf.cloud.domain.machine.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
+import rs.raf.cloud.domain.machine.dto.MachineDto;
+import rs.raf.cloud.domain.machine.entity.Machine;
 
 import java.util.List;
 

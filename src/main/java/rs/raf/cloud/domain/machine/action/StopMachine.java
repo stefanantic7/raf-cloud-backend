@@ -1,12 +1,12 @@
-package rs.raf.cloud.domain.machine.actions;
+package rs.raf.cloud.domain.machine.action;
 
 
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import rs.raf.cloud.domain.machine.Machine;
-import rs.raf.cloud.domain.machine.MachineRepository;
-import rs.raf.cloud.domain.machine.MachineStatusEnum;
+import rs.raf.cloud.domain.machine.entity.Machine;
+import rs.raf.cloud.domain.machine.repository.MachineRepository;
+import rs.raf.cloud.domain.machine.enums.MachineStatusEnum;
 
 @Component
 public class StopMachine {

@@ -1,0 +1,45 @@
+package rs.raf.cloud.domain.machine.repository;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import rs.raf.cloud.domain.machine.request.MachineSearchRequest;
+import rs.raf.cloud.domain.machine.entity.Machine;
+import rs.raf.cloud.domain.user.entity.User;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.*;
+import java.util.ArrayList;
+import java.util.List;
+
+@Repository
+public class CustomMachineRepositoryImpl implements CustomMachineRepository{
+
+    @Autowired
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    public List<Machine> searchMachines(User user, MachineSearchRequest machineSearchRequest){
+        CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Machine> query = criteriaBuilder.createQuery(Machine.class);
+
+        Root<Machine> root = query.from(Machine.class);
+        List<Predicate> predicates = new ArrayList<>();
+
+        predicates.add(criteriaBuilder.equal(root.get("user"), user));
+
+        if(machineSearchRequest.getStatus() != null) {
+            predicates.add(criteriaBuilder.equal(root.get("status"), machineSearchRequest.getStatus()));
+        }
+        if(machineSearchRequest.getName() != null) {
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%"+ machineSearchRequest.getName().toLowerCase()+"%"));
+        }
+        if(machineSearchRequest.getDateFrom() != null && machineSearchRequest.getDateTo() != null) {
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), machineSearchRequest.getDateFrom()));
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), machineSearchRequest.getDateTo()));
+        }
+
+        query.select(root).where(predicates.toArray(new Predicate[]{}));
+        return entityManager.createQuery(query).getResultList();
+    }
+}

@@ -1,14 +1,16 @@
-package rs.raf.cloud.domain.machine;
+package rs.raf.cloud.domain.machine.servicce;
 
 import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
-import rs.raf.cloud.CloudApplication;
-import rs.raf.cloud.domain.machine.actions.StartMachine;
+import rs.raf.cloud.domain.machine.enums.MachineStatusEnum;
+import rs.raf.cloud.domain.machine.entity.Machine;
+import rs.raf.cloud.domain.machine.repository.MachineRepository;
+import rs.raf.cloud.domain.machine.request.MachineCreateRequest;
+import rs.raf.cloud.domain.machine.request.MachineSearchRequest;
+import rs.raf.cloud.domain.user.entity.User;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -24,13 +26,13 @@ public class MachineService {
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
-    public List<Machine> search(MachineSearchQuery machineSearchQuery) {
-        return this.machineRepository.searchMachines(machineSearchQuery);
+    public List<Machine> search(User user, MachineSearchRequest machineSearchRequest) {
+        return this.machineRepository.searchMachines(user, machineSearchRequest);
     }
 
-    public Machine createMachine(MachineCreateQuery machineCreateQuery) {
+    public Machine createMachine(User user, MachineCreateRequest machineCreateRequest) {
         Machine machine = new Machine();
-        machine.setName(machineCreateQuery.getName());
+        machine.setName(machineCreateRequest.getName());
         machine.setActive(true);
         machine.setStatus(MachineStatusEnum.STOPPED);
         machine.setUid(UUID.randomUUID().toString());

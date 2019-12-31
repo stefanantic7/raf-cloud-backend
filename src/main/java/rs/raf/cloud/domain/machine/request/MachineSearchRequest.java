@@ -1,8 +1,10 @@
-package rs.raf.cloud.domain.machine;
+package rs.raf.cloud.domain.machine.request;
+
+import rs.raf.cloud.domain.machine.enums.MachineStatusEnum;
 
 import java.sql.Date;
 
-public class MachineSearchQuery {
+public class MachineSearchRequest {
 
     private String name;
     private MachineStatusEnum status;

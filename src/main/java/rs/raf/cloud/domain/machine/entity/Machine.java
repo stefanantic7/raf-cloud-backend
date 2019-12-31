@@ -1,8 +1,9 @@
-package rs.raf.cloud.domain.machine;
+package rs.raf.cloud.domain.machine.entity;
+
+import rs.raf.cloud.domain.machine.enums.MachineStatusEnum;
+import rs.raf.cloud.domain.user.entity.User;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -25,6 +26,10 @@ public class Machine implements Serializable {
 
     @Column(name = "active", nullable = false)
     private boolean active;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Column(name = "createdAt", nullable = true)
     private Timestamp createdAt;
@@ -67,6 +72,14 @@ public class Machine implements Serializable {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Timestamp getCreatedAt() {
