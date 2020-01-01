@@ -1,22 +1,28 @@
 package rs.raf.cloud.domain.user.request;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 public class JwtRequest {
 
-    private String username;
+    @NotBlank
+    @Email
+    private String email;
 
+    @NotBlank
     private String password;
 
-    public JwtRequest(String username, String password) {
-        this.setUsername(username);
+    public JwtRequest(String email, String password) {
+        this.setEmail(email);
         this.setPassword(password);
     }
 
-    public String getUsername() {
-        return this.username;
+    public String getEmail() {
+        return this.email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

@@ -3,13 +3,15 @@ package rs.raf.cloud.domain.user.request;
 import rs.raf.cloud.core.validation.constraints.UniqueField;
 import rs.raf.cloud.domain.user.entity.User;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 public class CreateUserRequest {
 
     @NotBlank
-    @UniqueField(entity = User.class, fieldName = "username", message = "Username is already taken")
-    private String username;
+    @UniqueField(entity = User.class, fieldName = "email", message = "User with given email already exists")
+    @Email
+    private String email;
 
     @NotBlank
     private String password;
@@ -17,12 +19,12 @@ public class CreateUserRequest {
     private String firstName;
     private String lastName;
 
-    public String getUsername() {
-        return username;
+    public String getEmail() {
+        return email;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public String getPassword() {

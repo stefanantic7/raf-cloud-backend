@@ -16,15 +16,14 @@ public class UserService {
     private UserRepository userRepository;
 
     public User create(CreateUserRequest createUserRequest) throws ValidationException {
-        String username = createUserRequest.getUsername();
-        if (this.userRepository.existsByUsername(username)){
-            throw new IllegalArgumentException("The value is already in the list.");
-//            throw new ValidationException("Username already exists");
+        String email = createUserRequest.getEmail();
+        if (this.userRepository.existsByEmail(email)){
+            throw new IllegalArgumentException("The given email is already taken.");
         }
         String encodedPassword = new BCryptPasswordEncoder().encode(createUserRequest.getPassword());
         String firstName = createUserRequest.getFirstName();
         String lastName = createUserRequest.getLastName();
 
-        return this.userRepository.save(new User(username, encodedPassword, firstName, lastName));
+        return this.userRepository.save(new User(email, encodedPassword, firstName, lastName));
     }
 }

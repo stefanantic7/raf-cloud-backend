@@ -15,11 +15,6 @@ public class AuthFacade implements IAuthFacade {
     private User user;
 
     @Override
-    public String getUsername() {
-        return SecurityContextHolder.getContext().getAuthentication().getName();
-    }
-
-    @Override
     public Long getId() {
         return this.getUser().getId();
     }
@@ -33,8 +28,8 @@ public class AuthFacade implements IAuthFacade {
         if (user != null) {
             return user;
         }
-        var username = SecurityContextHolder.getContext().getAuthentication().getName();
-        var user = this.userRepository.findByUsername(username);
+        var email = SecurityContextHolder.getContext().getAuthentication().getName();
+        var user = this.userRepository.findByEmail(email);
         this.setUser(user);
 
         return user;
