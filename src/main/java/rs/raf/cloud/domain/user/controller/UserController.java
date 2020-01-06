@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import javax.xml.bind.ValidationException;
 
 @RestController
+@CrossOrigin
 @RequestMapping("/users")
 public class UserController {
 

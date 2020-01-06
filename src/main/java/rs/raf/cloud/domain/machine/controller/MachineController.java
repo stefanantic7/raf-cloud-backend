@@ -14,6 +14,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/machines")
 public class MachineController {
 
@@ -37,30 +38,30 @@ public class MachineController {
         return MachineMapper.instance.machineToMachineDto(machine);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{uid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void destroy(@PathVariable long id) throws Exception {
-        this.machineService.destroyMachine(id);
+    public void destroy(@PathVariable String uid) throws Exception {
+        this.machineService.destroyMachine(uid);
     }
 
-    @PostMapping("/{id}/start")
+    @PostMapping("/{uid}/start")
     @ResponseStatus(HttpStatus.OK)
-    public MachineDto start(@PathVariable long id) throws Exception {
-        var machine = this.machineService.start(id);
+    public MachineDto start(@PathVariable String uid) throws Exception {
+        var machine = this.machineService.start(uid);
         return MachineMapper.instance.machineToMachineDto(machine);
     }
 
-    @PostMapping("/{id}/stop")
+    @PostMapping("/{uid}/stop")
     @ResponseStatus(HttpStatus.OK)
-    public MachineDto stop(@PathVariable long id) throws Exception {
-        var machine = this.machineService.stop(id);
+    public MachineDto stop(@PathVariable String uid) throws Exception {
+        var machine = this.machineService.stop(uid);
         return MachineMapper.instance.machineToMachineDto(machine);
     }
 
-    @PostMapping("/{id}/restart")
+    @PostMapping("/{uid}/restart")
     @ResponseStatus(HttpStatus.OK)
-    public MachineDto restart(@PathVariable long id) throws Exception {
-        var machine = this.machineService.restart(id);
+    public MachineDto restart(@PathVariable String uid) throws Exception {
+        var machine = this.machineService.restart(uid);
         return MachineMapper.instance.machineToMachineDto(machine);
     }
 

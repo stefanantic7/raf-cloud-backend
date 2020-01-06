@@ -32,6 +32,7 @@ public class MachineService {
 
     public Machine createMachine(User user, MachineCreateRequest machineCreateRequest) {
         Machine machine = new Machine();
+        machine.setUser(user);
         machine.setName(machineCreateRequest.getName());
         machine.setActive(true);
         machine.setStatus(MachineStatusEnum.STOPPED);
@@ -41,8 +42,8 @@ public class MachineService {
         return this.machineRepository.save(machine);
     }
 
-    public void destroyMachine(long id) throws Exception {
-        Optional<Machine> optionalMachine = this.machineRepository.findById(id);
+    public void destroyMachine(String uid) throws Exception {
+        Optional<Machine> optionalMachine = this.machineRepository.findByUid(uid);
         if (optionalMachine.isEmpty()) {
             throw new Exception("Machine not found");
         }
@@ -53,8 +54,8 @@ public class MachineService {
     }
 
     @Transactional(isolation= Isolation.SERIALIZABLE)
-    public Machine start(long id) throws Exception {
-        Optional<Machine> optionalMachine = this.machineRepository.findById(id);
+    public Machine start(String uid) throws Exception {
+        Optional<Machine> optionalMachine = this.machineRepository.findByUid(uid);
         if (optionalMachine.isEmpty()) {
             throw new Exception("Machine not found");
         }
@@ -73,8 +74,8 @@ public class MachineService {
     }
 
     @Transactional(isolation= Isolation.SERIALIZABLE)
-    public Machine stop(long id) throws Exception {
-        Optional<Machine> optionalMachine = this.machineRepository.findById(id);
+    public Machine stop(String uid) throws Exception {
+        Optional<Machine> optionalMachine = this.machineRepository.findByUid(uid);
         if (optionalMachine.isEmpty()) {
             throw new Exception("Machine not found");
         }
@@ -93,8 +94,8 @@ public class MachineService {
     }
 
     @Transactional(isolation= Isolation.SERIALIZABLE)
-    public Machine restart(long id) throws Exception {
-        Optional<Machine> optionalMachine = this.machineRepository.findById(id);
+    public Machine restart(String uid) throws Exception {
+        Optional<Machine> optionalMachine = this.machineRepository.findByUid(uid);
         if (optionalMachine.isEmpty()) {
             throw new Exception("Machine not found");
         }

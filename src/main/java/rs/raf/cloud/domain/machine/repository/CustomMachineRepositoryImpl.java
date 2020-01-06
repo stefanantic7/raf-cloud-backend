@@ -26,6 +26,7 @@ public class CustomMachineRepositoryImpl implements CustomMachineRepository{
         Root<Machine> root = query.from(Machine.class);
         List<Predicate> predicates = new ArrayList<>();
 
+        predicates.add(criteriaBuilder.equal(root.get("active"), true));
         predicates.add(criteriaBuilder.equal(root.get("user"), user));
 
         if(machineSearchRequest.getStatus() != null) {
@@ -38,6 +39,8 @@ public class CustomMachineRepositoryImpl implements CustomMachineRepository{
             predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), machineSearchRequest.getDateFrom()));
             predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), machineSearchRequest.getDateTo()));
         }
+
+        query.orderBy(criteriaBuilder.desc(root.get("createdAt")));
 
         query.select(root).where(predicates.toArray(new Predicate[]{}));
         return entityManager.createQuery(query).getResultList();
