@@ -30,7 +30,7 @@ public class CustomMachineRepositoryImpl implements CustomMachineRepository{
         predicates.add(criteriaBuilder.equal(root.get("user"), user));
 
         if(machineSearchRequest.getStatus() != null) {
-            predicates.add(criteriaBuilder.equal(root.get("status"), machineSearchRequest.getStatus()));
+            predicates.add(root.get("status").in(machineSearchRequest.getStatus()));
         }
         if(machineSearchRequest.getName() != null) {
             predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%"+ machineSearchRequest.getName().toLowerCase()+"%"));
