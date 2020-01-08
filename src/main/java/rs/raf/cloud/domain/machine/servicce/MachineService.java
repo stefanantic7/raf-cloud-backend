@@ -49,6 +49,10 @@ public class MachineService {
         }
 
         Machine machine = optionalMachine.get();
+        if (! machine.getStatus().equals(MachineStatusEnum.STOPPED)) {
+            throw new Exception("Machine is not STOPPED");
+        }
+
         machine.setActive(false);
         this.machineRepository.save(machine);
     }

@@ -3,19 +3,20 @@ package rs.raf.cloud.domain.machine.request;
 import rs.raf.cloud.domain.machine.enums.MachineStatusEnum;
 
 import java.sql.Date;
+import java.util.List;
 
 public class MachineSearchRequest {
 
     private String name;
-    private MachineStatusEnum status;
+    private List<MachineStatusEnum> status;
     private Date dateFrom;
     private Date dateTo;
 
-    public MachineStatusEnum getStatus() {
+    public List<MachineStatusEnum> getStatus() {
         return status;
     }
 
-    public void setStatus(MachineStatusEnum status) {
+    public void setStatus(List<MachineStatusEnum> status) {
         this.status = status;
     }
 

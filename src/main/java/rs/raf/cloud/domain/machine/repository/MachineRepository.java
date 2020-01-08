@@ -9,6 +9,11 @@ import java.util.Optional;
 
 @Repository
 public interface MachineRepository extends JpaRepository<Machine, Long>, CustomMachineRepository {
-    List<Machine> findAllByActiveIsTrue();
-    Optional<Machine> findByUid(String uid);
+
+    Optional<Machine> findByUidAndActiveIsTrue(String uid);
+
+    default Optional<Machine> findByUid(String uid) {
+        return this.findByUidAndActiveIsTrue(uid);
+    }
+
 }

@@ -27,7 +27,7 @@ public class Machine implements Serializable {
     @Column(name = "active", nullable = false)
     private boolean active;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = User.class)
     @JoinColumn(name = "user_id")
     private User user;
 

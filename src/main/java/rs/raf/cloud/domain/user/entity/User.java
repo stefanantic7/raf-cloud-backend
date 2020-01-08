@@ -27,15 +27,6 @@ public class User {
     @Column(name = "lastName", nullable = true)
     private String lastName;
 
-    @OneToMany
-    private List<Machine> machines;
-
-    @CreationTimestamp
-    private Timestamp createdAt;
-
-    @UpdateTimestamp
-    private Timestamp updatedAt;
-
     public User() {}
 
     public User(String email, String password) {
