@@ -3,9 +3,9 @@ package rs.raf.cloud.domain.machine.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import rs.raf.cloud.domain.machine.request.MachineCreateRequest;
+import rs.raf.cloud.domain.machine.request.CreateMachineRequest;
 import rs.raf.cloud.domain.machine.mapper.MachineMapper;
-import rs.raf.cloud.domain.machine.request.MachineSearchRequest;
+import rs.raf.cloud.domain.machine.request.SearchMachineRequest;
 import rs.raf.cloud.domain.machine.servicce.MachineService;
 import rs.raf.cloud.domain.machine.dto.MachineDto;
 import rs.raf.cloud.domain.user.facade.auth.IAuthFacade;
@@ -26,15 +26,15 @@ public class MachineController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<MachineDto> search(@Valid MachineSearchRequest machineSearchRequest) {
-        var machineList = this.machineService.search(this.authenticationFacade.getUser(), machineSearchRequest);
+    public List<MachineDto> search(@Valid SearchMachineRequest searchMachineRequest) {
+        var machineList = this.machineService.search(this.authenticationFacade.getUser(), searchMachineRequest);
         return MachineMapper.instance.machineListToMachineDtoList(machineList);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public MachineDto create(@RequestBody @Valid MachineCreateRequest machineCreateRequest) {
-        var machine = machineService.createMachine(this.authenticationFacade.getUser(), machineCreateRequest);
+    public MachineDto create(@RequestBody @Valid CreateMachineRequest createMachineRequest) {
+        var machine = machineService.createMachine(this.authenticationFacade.getUser(), createMachineRequest);
         return MachineMapper.instance.machineToMachineDto(machine);
     }
 

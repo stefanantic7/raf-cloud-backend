@@ -8,8 +8,8 @@ import org.springframework.transaction.annotation.Transactional;
 import rs.raf.cloud.domain.machine.enums.MachineStatusEnum;
 import rs.raf.cloud.domain.machine.entity.Machine;
 import rs.raf.cloud.domain.machine.repository.MachineRepository;
-import rs.raf.cloud.domain.machine.request.MachineCreateRequest;
-import rs.raf.cloud.domain.machine.request.MachineSearchRequest;
+import rs.raf.cloud.domain.machine.request.CreateMachineRequest;
+import rs.raf.cloud.domain.machine.request.SearchMachineRequest;
 import rs.raf.cloud.domain.user.entity.User;
 
 import java.sql.Timestamp;
@@ -26,14 +26,14 @@ public class MachineService {
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
-    public List<Machine> search(User user, MachineSearchRequest machineSearchRequest) {
-        return this.machineRepository.searchMachines(user, machineSearchRequest);
+    public List<Machine> search(User user, SearchMachineRequest searchMachineRequest) {
+        return this.machineRepository.searchMachines(user, searchMachineRequest);
     }
 
-    public Machine createMachine(User user, MachineCreateRequest machineCreateRequest) {
+    public Machine createMachine(User user, CreateMachineRequest createMachineRequest) {
         Machine machine = new Machine();
         machine.setUser(user);
-        machine.setName(machineCreateRequest.getName());
+        machine.setName(createMachineRequest.getName());
         machine.setActive(true);
         machine.setStatus(MachineStatusEnum.STOPPED);
         machine.setUid(UUID.randomUUID().toString());

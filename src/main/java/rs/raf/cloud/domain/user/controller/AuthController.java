@@ -18,46 +18,10 @@ import rs.raf.cloud.domain.user.service.JwtUserDetailsService;
 public class AuthController {
 
     @Autowired
-    private AuthenticationManager authenticationManager;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
     private JwtUserDetailsService jwtUserDetailsService;
 
-
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest authenticationRequest) throws Exception {
-
-        authenticate(authenticationRequest.getEmail(), authenticationRequest.getPassword());
-
-        final UserDetails userDetails = jwtUserDetailsService
-
-                .loadUserByUsername(authenticationRequest.getEmail());
-
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new JwtResponse(token));
-
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody JwtRequest jwtRequest) throws Exception {
+        return ResponseEntity.ok(new JwtResponse(this.jwtUserDetailsService.authenticateAndGetToken(jwtRequest.getEmail(), jwtRequest.getPassword())));
     }
-
-    private void authenticate(String email, String password) throws Exception {
-
-        try {
-
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(email, password));
-
-        } catch (DisabledException e) {
-
-            throw new Exception("USER_DISABLED", e);
-
-        } catch (BadCredentialsException e) {
-
-            throw new Exception("INVALID_CREDENTIALS", e);
-
-        }
-
-    }
-
 }

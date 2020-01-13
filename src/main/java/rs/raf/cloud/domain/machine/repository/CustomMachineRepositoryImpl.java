@@ -2,7 +2,7 @@ package rs.raf.cloud.domain.machine.repository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import rs.raf.cloud.domain.machine.request.MachineSearchRequest;
+import rs.raf.cloud.domain.machine.request.SearchMachineRequest;
 import rs.raf.cloud.domain.machine.entity.Machine;
 import rs.raf.cloud.domain.user.entity.User;
 
@@ -19,7 +19,7 @@ public class CustomMachineRepositoryImpl implements CustomMachineRepository{
     @PersistenceContext
     private EntityManager entityManager;
 
-    public List<Machine> searchMachines(User user, MachineSearchRequest machineSearchRequest){
+    public List<Machine> searchMachines(User user, SearchMachineRequest searchMachineRequest){
         CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
         CriteriaQuery<Machine> query = criteriaBuilder.createQuery(Machine.class);
 
@@ -29,15 +29,15 @@ public class CustomMachineRepositoryImpl implements CustomMachineRepository{
         predicates.add(criteriaBuilder.equal(root.get("active"), true));
         predicates.add(criteriaBuilder.equal(root.get("user"), user));
 
-        if(machineSearchRequest.getStatus() != null) {
-            predicates.add(root.get("status").in(machineSearchRequest.getStatus()));
+        if(searchMachineRequest.getStatus() != null) {
+            predicates.add(root.get("status").in(searchMachineRequest.getStatus()));
         }
-        if(machineSearchRequest.getName() != null) {
-            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%"+ machineSearchRequest.getName().toLowerCase()+"%"));
+        if(searchMachineRequest.getName() != null) {
+            predicates.add(criteriaBuilder.like(criteriaBuilder.lower(root.get("name")), "%"+ searchMachineRequest.getName().toLowerCase()+"%"));
         }
-        if(machineSearchRequest.getDateFrom() != null && machineSearchRequest.getDateTo() != null) {
-            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), machineSearchRequest.getDateFrom()));
-            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), machineSearchRequest.getDateTo()));
+        if(searchMachineRequest.getDateFrom() != null && searchMachineRequest.getDateTo() != null) {
+            predicates.add(criteriaBuilder.greaterThanOrEqualTo(root.get("createdAt"), searchMachineRequest.getDateFrom()));
+            predicates.add(criteriaBuilder.lessThanOrEqualTo(root.get("createdAt"), searchMachineRequest.getDateTo()));
         }
 
         query.orderBy(criteriaBuilder.desc(root.get("createdAt")));

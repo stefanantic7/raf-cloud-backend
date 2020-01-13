@@ -5,7 +5,7 @@ import rs.raf.cloud.domain.machine.enums.MachineStatusEnum;
 import java.sql.Date;
 import java.util.List;
 
-public class MachineSearchRequest {
+public class SearchMachineRequest {
 
     private String name;
     private List<MachineStatusEnum> status;
