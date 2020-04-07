@@ -41,27 +41,27 @@ public class MachineController {
     @DeleteMapping("/{uid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void destroy(@PathVariable String uid) throws Exception {
-        this.machineService.destroyMachine(uid);
+        this.machineService.destroyMachine(this.authenticationFacade.getUser(), uid);
     }
 
     @PostMapping("/{uid}/start")
     @ResponseStatus(HttpStatus.OK)
     public MachineDto start(@PathVariable String uid) throws Exception {
-        var machine = this.machineService.start(uid);
+        var machine = this.machineService.start(this.authenticationFacade.getUser(), uid);
         return MachineMapper.instance.machineToMachineDto(machine);
     }
 
     @PostMapping("/{uid}/stop")
     @ResponseStatus(HttpStatus.OK)
     public MachineDto stop(@PathVariable String uid) throws Exception {
-        var machine = this.machineService.stop(uid);
+        var machine = this.machineService.stop(this.authenticationFacade.getUser(), uid);
         return MachineMapper.instance.machineToMachineDto(machine);
     }
 
     @PostMapping("/{uid}/restart")
     @ResponseStatus(HttpStatus.OK)
     public MachineDto restart(@PathVariable String uid) throws Exception {
-        var machine = this.machineService.restart(uid);
+        var machine = this.machineService.restart(this.authenticationFacade.getUser(), uid);
         return MachineMapper.instance.machineToMachineDto(machine);
     }
 

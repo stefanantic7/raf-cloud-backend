@@ -42,8 +42,8 @@ public class MachineService {
         return this.machineRepository.save(machine);
     }
 
-    public void destroyMachine(String uid) throws Exception {
-        Optional<Machine> optionalMachine = this.machineRepository.findByUid(uid);
+    public void destroyMachine(User user, String uid) throws Exception {
+        Optional<Machine> optionalMachine = this.machineRepository.findByUidAndUser(uid, user);
         if (optionalMachine.isEmpty()) {
             throw new Exception("Machine not found");
         }
@@ -58,8 +58,8 @@ public class MachineService {
     }
 
     @Transactional(isolation= Isolation.SERIALIZABLE)
-    public Machine start(String uid) throws Exception {
-        Optional<Machine> optionalMachine = this.machineRepository.findByUid(uid);
+    public Machine start(User user, String uid) throws Exception {
+        Optional<Machine> optionalMachine = this.machineRepository.findByUidAndUser(uid, user);
         if (optionalMachine.isEmpty()) {
             throw new Exception("Machine not found");
         }
@@ -78,8 +78,8 @@ public class MachineService {
     }
 
     @Transactional(isolation= Isolation.SERIALIZABLE)
-    public Machine stop(String uid) throws Exception {
-        Optional<Machine> optionalMachine = this.machineRepository.findByUid(uid);
+    public Machine stop(User user, String uid) throws Exception {
+        Optional<Machine> optionalMachine = this.machineRepository.findByUidAndUser(uid, user);
         if (optionalMachine.isEmpty()) {
             throw new Exception("Machine not found");
         }
@@ -98,8 +98,8 @@ public class MachineService {
     }
 
     @Transactional(isolation= Isolation.SERIALIZABLE)
-    public Machine restart(String uid) throws Exception {
-        Optional<Machine> optionalMachine = this.machineRepository.findByUid(uid);
+    public Machine restart(User user, String uid) throws Exception {
+        Optional<Machine> optionalMachine = this.machineRepository.findByUidAndUser(uid, user);
         if (optionalMachine.isEmpty()) {
             throw new Exception("Machine not found");
         }
