@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 import rs.raf.cloud.domain.user.entity.User;
 import rs.raf.cloud.domain.user.repository.UserRepository;
+import javax.servlet.http.HttpServletRequest;
 
 @Component
 public class AuthFacade implements IAuthFacade {
@@ -12,7 +13,8 @@ public class AuthFacade implements IAuthFacade {
     @Autowired
     private UserRepository userRepository;
 
-    private User user;
+    @Autowired
+    private HttpServletRequest request;
 
     @Override
     public Long getId() {
@@ -20,17 +22,18 @@ public class AuthFacade implements IAuthFacade {
     }
 
     public void setUser(User user) {
-        this.user = user;
+        request.setAttribute("user", user);
     }
 
     @Override
     public User getUser() {
-        if (user != null) {
-            return user;
+        User user = (User) this.request.getAttribute("user");
+        if (user == null) {
+            System.out.println("tttt");
+            var email = SecurityContextHolder.getContext().getAuthentication().getName();
+            user = this.userRepository.findByEmail(email);
+            this.setUser(this.userRepository.findByEmail(email));
         }
-        var email = SecurityContextHolder.getContext().getAuthentication().getName();
-        var user = this.userRepository.findByEmail(email);
-        this.setUser(user);
 
         return user;
     }
